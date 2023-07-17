@@ -1,0 +1,12 @@
+.gameboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    text-align: center;
+    gap: 8px;
+}
+
+.cell {
+    border: 1px black solid;
+    padding: 16px;
+    cursor: pointer;
+}
