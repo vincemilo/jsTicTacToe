@@ -43,24 +43,39 @@ const gameStart = (() => {
     log.innerText = 'Welcome to tic tac toe';
     const player1 = Player('vince');
     const player2 = Player('comp');
-    GameBoard.printBoard();
+    //GameBoard.printBoard();
     //console.log(GameBoard.getBoard());
     let playerTurn = 0;
     let counter = 0;
     domBoard.addEventListener('click', (e) => {
-        if (validate_move(e) === true){
-                GameBoard.dropToken(e.target.dataset.cell, getToken(playerTurn));
-                GameBoard.printBoard();
-                e.target.innerText = getToken(playerTurn);
-                checkWinner();
+        console.log(counter);
+        if (counter < 9 && validate_move(e) === true){
+            GameBoard.dropToken(e.target.dataset.cell, getToken(playerTurn));
+            //GameBoard.printBoard();
+            e.target.innerText = getToken(playerTurn);
+            if (checkWinner() === true) {
+                gameOver(playerTurn);
+                counter = 9;
+            } else if (counter === 8) { 
+                gameOver(3);
+            } else {
                 counter++;
                 playerTurn++;
-                playerTurn %= 2;
-            } else {
-                log.innerText = 'Invalid selection';
+               playerTurn %= 2;
             };
-        });
-    
+        } else {
+            log.innerText = 'Invalid selection';
+        };
+    });
+
+    const gameOver = (player) => {
+        if (player === 3){ 
+            return log.innerText = "It's a tie!";
+        } else { 
+        player === 0 ? log.innerText = `${player1.getName()} wins` : `${player2.getName()} wins`;
+        }
+    }
+
     const validate_move = (e) => {
         if (e.target.dataset.cell >= 0 && e.target.dataset.cell <= 8 && GameBoard.getBoard()[e.target.dataset.cell] === 0){
         return true;
@@ -74,23 +89,14 @@ const gameStart = (() => {
     }
 
     const checkWinner = () => {
-        winning_combos.some((combo) => console.log(combo));
+        winner = winning_combos.map((combo) => [GameBoard.getBoard()[combo[0]], GameBoard.getBoard()[combo[1]], GameBoard.getBoard()[combo[2]]]);
+        //console.log(winner);
+        let unique = winner.map((combo) => [...new Set(combo)].toString());
+        return unique.some((x) => x === 'X' || x === 'O') ? true : false;
     }
     
     const winning_combos = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7],
     [2, 5, 8], [0, 4, 8], [2, 4, 6]];
-    
-    // while (counter < 9) {
-    //     if (playerTurn === 1){
-    //         log.innerText = `${player1.getName()} please select your square.`;
-    //         //selectSquare(player1);
-    //     } else {
-    //         log.innerText = `${player2.getName()} please select your square.`;
-    //     }    
-    //  counter++;   
-    // }
-
-    //return {player1, player2};
 })();
 
 // console.log(gameStart);
