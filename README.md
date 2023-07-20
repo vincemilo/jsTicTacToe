@@ -1,6 +1,6 @@
 # jsTicTacToe
 
-Assigment: https://www.theodinproject.com/lessons/javascript-tic-tac-toe
+Assignment: https://www.theodinproject.com/lessons/javascript-tic-tac-toe
 
 # Features:
 - Uses JS module patterns or factory functions to keep closed scope
